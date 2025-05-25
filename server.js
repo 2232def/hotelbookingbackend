@@ -77,16 +77,11 @@ app.post("/askllm", async (req, res) => {
           firstLlmResponse = user.llmResponse;
         }
       } catch (err) {
-        console.log(
-          "User not verified. Invalid or expired token:",
-          err.message
-        );
         return res
           .status(401)
           .json({ error: "Invalid or expired authentication token." });
       }
     } else {
-      console.log("No Authorization header or Bearer token found.");
       return res.status(401).json({ error: "Authentication token required." });
     }
 
@@ -130,12 +125,7 @@ app.post("/askllm", async (req, res) => {
 
     // Store the LLM response for debugging
     req.app.locals.llmOutput = llmResponse1;
-    console.log(
-      "LLM response for user",
-      userId,
-      ":",
-      llmResponse1.substring(0, 200) + "..."
-    );
+
 
     // Save or update LLMResponse for this user
     await User.findByIdAndUpdate(
